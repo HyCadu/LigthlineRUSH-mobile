@@ -7,7 +7,10 @@
     "postinstall": "patch-package",
     "build:web": "node scripts/build-web.js",
     "sync": "npm run build:web && npx cap sync android",
-    "open:android": "npx cap open android"
+    "open:android": "npx cap open android",
+    "release:preflight": "node scripts/release-preflight.js",
+    "release:prep": "npm run sync && npm run release:preflight",
+    "release:aab": "npm run release:prep && node scripts/build-aab.js"
   },
   "dependencies": {
     "@capacitor-community/admob": "^8.1.0",

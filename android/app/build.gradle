@@ -1,8 +1,28 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 apply plugin: 'com.android.application'
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+def hasKeystoreProperties = keystorePropertiesFile.exists()
+if (hasKeystoreProperties) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     namespace = "com.lightlinerush.game"
     compileSdk = rootProject.ext.compileSdkVersion
+    signingConfigs {
+        release {
+            if (hasKeystoreProperties) {
+                storeFile rootProject.file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
     defaultConfig {
         applicationId "com.lightlinerush.game"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -19,6 +39,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            if (hasKeystoreProperties) {
+                signingConfig signingConfigs.release
+            } else {
+                logger.lifecycle("keystore.properties nao encontrado. release:aab vai falhar ate configurar assinatura.")
+            }
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

@@ -62,4 +62,15 @@ Pra regenerar depois de trocar alguma arte: `npx capacitor-assets generate --and
 npm install          # instala @capacitor/core, @capacitor/android, @capacitor/cli, @capacitor-community/admob
 npm run sync          # gera www/ e sincroniza com o projeto Android
 npm run open:android  # abre o projeto no Android Studio
+npm run release:preflight # valida anuncios, versao e assinatura antes do release
+npm run release:prep      # sync + preflight
+npm run release:aab       # gera app-release.aab assinado (Play Store)
 ```
+
+## Assinatura de release automatizada
+
+1. Copie `android/keystore.properties.example` para `android/keystore.properties`.
+2. Preencha `storeFile`, `storePassword`, `keyAlias` e `keyPassword`.
+3. Coloque o `.jks` no caminho informado em `storeFile`.
+
+Com isso, o Gradle passa a usar automaticamente a chave de upload no build `release`.

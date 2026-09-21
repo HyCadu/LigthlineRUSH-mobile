@@ -8,4 +8,9 @@ android/app/src/main/assets/public/
 android/captures/
 android/*.iml
 android/app/*.iml
+android/keystore.properties
+android/app/*.jks
+android/app/*.keystore
+android/keystore/*.jks
+android/keystore/*.keystore
 .DS_Store
